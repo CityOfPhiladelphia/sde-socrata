@@ -1,0 +1,11 @@
+{
+  "action": "Replace",
+  "csv": {
+    "emptyTextIsNull": true,
+    "encoding": "utf-8",
+    "quote": "\"",
+    "separator": ",",
+    "trimWhitespace": true,
+    "skip": 1
+  }
+}
