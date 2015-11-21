@@ -6,6 +6,7 @@ import unicodecsv as csv
 from slugify import slugify
 
 arcpy.env.workspace = 'C:/Users/tim/Desktop/ArcGIS/GIS_SDE_VIEWER.gdb'
+spatial_reference = arcpy.SpatialReference(4326)
 
 def get_fields(table):
 	select = []
@@ -39,7 +40,8 @@ for dataset in datasets:
 	with open('tmp/' + dataset['table'] + '.csv', 'wb') as f:
 		writer = csv.writer(f)
 		writer.writerow(headers)
-		writer.writerows(arcpy.da.SearchCursor(dataset['table'], select))
+		writer.writerows(arcpy.da.SearchCursor(dataset['table'], select,
+						 spatial_reference=spatial_reference))
 		
 		# Put clean headers into control file template
 		control_file['csv']['columns'] = headers
