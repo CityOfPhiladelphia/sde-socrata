@@ -1,0 +1,25 @@
+{
+	"workspace": "",
+	"spatialReference": 4326,
+  "datasyncPath": "./bin/DataSync-1.6.jar",
+  
+  "domain": "",
+  "username": "",
+  "password": "",
+  "appToken": "",
+  
+  "logDatasetID": "",
+  
+  "emailUponError": false,
+  "adminEmail": "",
+  "outgoingMailServer": "",
+  "smtpPort": null,
+  "sslPort": null,
+  "smtpUsername": "",
+  "smtpPassword": "",
+  
+  "proxyHost": "",
+  "proxyPort": null,
+  "proxyUsername": "",
+  "proxyPassword": ""
+}

@@ -1,65 +1,56 @@
-import arcpy
-import yaml
 import json
 import subprocess
+
+import yaml
 import unicodecsv as csv
-from slugify import slugify
 
-arcpy.env.workspace = 'C:/Users/tim/Desktop/ArcGIS/GIS_SDE_VIEWER.gdb'
-spatial_reference = arcpy.SpatialReference(4326)
+from sde_to_wkt import SDEtoWKT
 
-def get_fields(table):
-	select = []
-	headers = []
-	desc = arcpy.Describe(table)
-	fields = desc.fields
-	for field in fields:
-		if field.Type == 'Geometry':
-			select.append(field.Name + '@WKT')
-			headers.append('the_geom')
-		else:
-			select.append(field.Name)
-			headers.append(slugify(field.Name, separator='_'))
-					
-	return select, headers
+# Load config file
+with open('config/config.json') as config_json:
+	config = json.load(config_json)
+
+spatial_reference = arcpy.SpatialReference(config['spatialReference'])
+
+extractor = SDEtoWKT(config['workspace'], spatial_reference=spatial_reference,
+					rename_geometry='the_geom') # socrata name for geom fields
 
 # Load control file template
-with open('control.template.json') as control_json:
+with open('config/control.template.json') as control_json:
 	control_template = json.load(control_json)
 
 # Fetch datasets config
-with open('datasets.yaml') as datasets_yaml:
+with open('config/datasets.yaml') as datasets_yaml:
 	datasets = yaml.load(datasets_yaml)
 	
-# For each dataset in datasets config
-for dataset in datasets:
-	control_file = control_template.copy()
-	
-	select, headers = get_fields(dataset['table'])
+# For each table in datasets config
+for table in datasets:
+	table_contents = extractor.get_table(table)
 
-	with open('tmp/' + dataset['table'] + '.csv', 'wb') as f:
+	# Write dataset to CSV in WKT format
+	with open('tmp/' + table + '.csv', 'wb') as f:
 		writer = csv.writer(f)
-		writer.writerow(headers)
-		writer.writerows(arcpy.da.SearchCursor(dataset['table'], select,
-						 spatial_reference=spatial_reference))
+		writer.writerow(table_contents.fields)
+		writer.writerows(table_contents.rows)
 		
-		# Put clean headers into control file template
-		control_file['csv']['columns'] = headers
-	
-		# Write control file to disk
-		with open('tmp/control.' + dataset['table'] + '.json', 'w') as f:
-			json.dump(control_file, f)
+	# Put clean headers into control file template
+	control_file = control_template.copy()
+	control_file['csv']['columns'] = table_contents.fields
+
+	# Write control file to disk
+	with open('tmp/' + table + '.control.json', 'w') as f:
+		json.dump(control_file, f, indent=4)
 		
-	print('Pushing %s to %s' % (dataset['table'], dataset['socrata_id']))
+	print('Pushing %s to %s/d/%s' % (table, config['domain'], datasets[table]))
 	
 	# Call DataSync w/csv and control file
 	subprocess.call([
 		'java',
-		'-jar', './bin/DataSync-1.6.jar',
-		'-c', 'config.json',
-		'-f', 'tmp/' + dataset['table'] + '.csv',
-		'-i', dataset['socrata_id'],
+		'-jar', config['datasyncPath'],
+		'-c', 'config/config.json',
+		'-f', 'tmp/' + table + '.csv',
+		'-i', datasets[table],
 		'-m', 'replace',
 		'-ph', 'true',
-		'-cf', 'tmp/control.' + dataset['table'] + '.json'
+		'-cf', 'tmp/' + table + '.control.json'
 	])
