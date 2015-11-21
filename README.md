@@ -19,7 +19,7 @@ Supports proxy servers, logging, and email alerts.
 
 ## Configuration
 1. Register a [Socrata app token](http://dev.socrata.com/register)
-2. Copy `config/config.sample.json` to `config/config.json` and fill it in ([help](http://socrata.github.io/datasync/resources/preferences-config.html])
+2. Copy `config/config.sample.json` to `config/config.json` and fill it in ([help](http://socrata.github.io/datasync/resources/preferences-config.html))
 3. Fill in table and dataset ID information in `config/datasets.yaml`
 
 ## Usage
