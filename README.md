@@ -14,8 +14,9 @@ Supports proxy servers, logging, and email alerts.
 
 ## Installation
 1. Clone this repository
-2. Install dependencies via `pip install -r requirements.txt`
-3. Put the DataSync `.jar` file in the `/bin` directory
+2. Optionally, activate using `virtualenv --system-site-packages venv`
+3. Install dependencies via `pip install -r -I requirements.txt`
+4. Put the DataSync `.jar` file in the `/bin` directory
 
 ## Configuration
 1. Register a [Socrata app token](http://dev.socrata.com/register)
