@@ -12,8 +12,7 @@ with open('config/config.json') as config_json:
 
 spatial_reference = arcpy.SpatialReference(config['spatialReference'])
 
-extractor = SDEtoWKT(config['workspace'], spatial_reference=spatial_reference,
-					rename_geometry='the_geom') # socrata name for geom fields
+extractor = SDEtoWKT(config['workspace'], spatial_reference=spatial_reference)
 
 # Load control file template
 with open('config/control.template.json') as control_json:

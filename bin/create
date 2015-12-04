@@ -1,0 +1,71 @@
+#!/usr/bin/env python
+import argparse
+import json
+
+import arcpy
+from sodapy import Socrata
+from slugify import slugify
+
+def map_shape_type(shape_type):
+	return {
+		'Polygon': 'multipolygon',
+		'Polyline': 'polyline',
+		'Point': 'point',
+		'MultiPoint': 'multipoint',
+		'MultiPatch': 'multipatch',
+	}[shape_type]
+
+def map_field_type(field_type, shape_type):
+	return {
+		'Blob': 'text',
+		'Date': 'calendar_date',
+		'Double': 'number',
+		'Geometry': shape_type,
+		'Guid': 'text',
+		'Integer': 'number',
+		'OID': 'number',
+		'Raster': 'text',
+		'Single': 'number',
+		'SmallInteger': 'number',
+		'String': 'text',
+	}[field_type]
+
+parser = argparse.ArgumentParser(description='Create dataset')
+parser.add_argument('table', help='Table name')
+args = parser.parse_args()
+
+# Load config file
+with open('../config/config.json') as config_json:
+	config = json.load(config_json)
+
+arcpy.env.workspace = config['workspace']
+
+# Get fields
+desc = arcpy.Describe(args.table)
+shape_type = map_shape_type(desc.shapeType)
+columns = []
+row_identifier = ''
+for field in desc.fields:
+	field_name = slugify(field.name, separator='_')
+	
+	if(field.type == 'OID'):
+		row_identifier = field_name
+		
+	columns.append({
+		'fieldName': field_name,
+		'name': field.aliasName,
+		'dataTypeName': map_field_type(field.type, shape_type),
+	})
+
+# Create dataset
+client = Socrata(config['domain'].lstrip('https://'), config['appToken'], 
+		username=config['username'], password=config['password'])
+
+print('Creating %s' % desc.name)
+
+response = client.create(desc.name, columns=columns, row_identifier=row_identifier,
+	new_backend=True)
+resource = response[u'id']
+if(resource):
+	client.publish(resource)
+	print('Created dataset %s/d/%s' % (config['domain'], resource))
