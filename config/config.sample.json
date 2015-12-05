@@ -2,6 +2,8 @@
 	"workspace": "",
 	"spatialReference": 4326,
   "datasyncPath": "./bin/DataSync-1.6.jar",
+  "tempPath": "./tmp",
+  "controlTemplatePath": "./config/control.template.json",
   
   "domain": "",
   "username": "",
