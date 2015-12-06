@@ -23,9 +23,7 @@ class Push(Base):
 		with open('config/config.json') as config_json:
 			config = json.load(config_json)
 		
-		spatial_reference = arcpy.SpatialReference(config['spatialReference'])
-		
-		extractor = SDEtoWKT(config['workspace'], spatial_reference=spatial_reference)
+		extractor = SDEtoWKT(config['workspace'], spatial_reference=config['spatialReference'])
 		pusher = WKTtoSocrata('config/config.json', config['controlTemplatePath'],
 							config['datasyncPath'], temp_path=config['tempPath'])
 			

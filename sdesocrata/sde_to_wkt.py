@@ -13,7 +13,7 @@ class SDEtoWKT(object):
 		rename_geometry : optionally, rename the geometry field to this
 		"""
 		arcpy.env.workspace = workspace
-		self.spatial_reference = spatial_reference
+		self.spatial_reference = arcpy.SpatialReference(spatial_reference) if spatial_reference else None
 		self.rename_geometry = rename_geometry
 	
 	def get_fields(self, table):
