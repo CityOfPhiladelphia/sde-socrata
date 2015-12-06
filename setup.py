@@ -35,7 +35,7 @@ class RunTests(Command):
 setup(
     name = 'sdesocrata',
     version = __version__,
-    description = 'Push Arc SDE tables to Socrata via DataSync',
+    description = 'Create and push Socrata datasets from Arc SDE feature classes',
     long_description = long_description,
     url = 'https://github.com/timwis/sde-socrata',
     author = 'Tim Wisniewski',
