@@ -1,4 +1,7 @@
 config/config.json
 *.pyc
 venv
+build
+dist
+*.egg-info
 bin/DataSync*
