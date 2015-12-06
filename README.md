@@ -19,7 +19,7 @@ functionality).
 1. Clone this repository
 2. Optionally, create a virtual environment using `virtualenv --system-site-packages venv`
 and activate using `. venv/bin/activate` (unix) or `venv/Scripts/activate` (windows)
-3. Install dependencies via `pip install -r -I requirements.txt`
+3. Install dependencies via `pip install -I -r requirements.txt`
 4. Install the command-line utility via `python setup.py install`
 5. Put the DataSync `.jar` file in the `/bin` directory
 
