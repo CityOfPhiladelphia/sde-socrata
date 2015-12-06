@@ -4,4 +4,4 @@ venv
 build
 dist
 *.egg-info
-bin/DataSync*
+DataSync*.jar
