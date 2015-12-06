@@ -27,3 +27,5 @@ Supports proxy servers, logging, and email alerts.
 ```bash
 $ python main.py
 ```
+
+Command-line setup followed [this helpful tutorial](https://stormpath.com/blog/building-simple-cli-interfaces-in-python/).

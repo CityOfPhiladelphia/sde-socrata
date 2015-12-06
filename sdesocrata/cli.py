@@ -35,9 +35,8 @@ def main():
     """Main CLI entrypoint."""
     import commands
     options = docopt(__doc__, version=VERSION)
-
     for k, v in options.iteritems():
-        if hasattr(commands, k):
+        if hasattr(commands, k) and v:
             module = getattr(commands, k)
             commands = getmembers(module, isclass)
             command = [command[1] for command in commands if command[0] != 'Base'][0]
