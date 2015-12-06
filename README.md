@@ -1,11 +1,14 @@
 # SDE to Socrata
 Create and push Socrata datasets from Arc SDE feature classes
 
-This program loops through a [list of tables](config/datasets.yaml)
-and pushes their contents to their corresponding Socrata dataset IDs
-using an efficient transfer process provided by Socrata's DataSync utility.
+This program provides a command-line utility to create Socrata datasets
+from Arc SDE feature classes and push their contents in using an efficient
+transfer process provided by Socrata's DataSync utility. Optionally, you 
+can use a [list of pushes](config/datasets.yaml) to create a recurring
+sync job that can run on a cron tab / Windows task.
 
-Supports proxy servers, logging, and email alerts.
+Supports proxy servers, logging, and email alerts (via DataSync's out-of-the-box 
+functionality).
 
 ## Requirements
 - Java Runtime JDK
@@ -14,15 +17,16 @@ Supports proxy servers, logging, and email alerts.
 
 ## Installation
 1. Clone this repository
-2. Optionally, activate using `virtualenv --system-site-packages venv`
+2. Optionally, create a virtual environment using `virtualenv --system-site-packages venv`
+and activate using `. venv/bin/activate` (unix) or `venv/Scripts/activate` (windows)
 3. Install dependencies via `pip install -r -I requirements.txt`
-4. Put the DataSync `.jar` file in the `/bin` directory
-5. Install via `python setup.py install`
+4. Install the command-line utility via `python setup.py install`
+5. Put the DataSync `.jar` file in the `/bin` directory
 
 ## Configuration
 1. Register a [Socrata app token](http://dev.socrata.com/register)
 2. Copy `config/config.sample.json` to `config/config.json` and fill it in ([help](http://socrata.github.io/datasync/resources/preferences-config.html))
-3. Fill in table and dataset ID information in `config/datasets.yaml`
+3. Optionally, fill in table and dataset ID information in `config/datasets.yaml`
 
 ## Usage
 ```bash
