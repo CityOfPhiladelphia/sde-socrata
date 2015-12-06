@@ -15,16 +15,16 @@ class Push(Base):
 			datasets[self.options['<table>']] = self.options['<id>']
 		
 		# Otherwise, fetch datasets config
-		else:
-			with open('config/datasets.yaml') as datasets_yaml:
+		elif self.options['--list']:
+			with open(self.options['--list']) as datasets_yaml:
 				datasets = yaml.load(datasets_yaml)
 		
 		# Load config file
-		with open('config/config.json') as config_json:
+		with open(self.options['--config']) as config_json:
 			config = json.load(config_json)
 		
 		extractor = SDEtoWKT(config['workspace'], spatial_reference=config['spatialReference'])
-		pusher = WKTtoSocrata('config/config.json', config['controlTemplatePath'],
+		pusher = WKTtoSocrata(self.options['--config'], config['controlTemplatePath'],
 							config['datasyncPath'], temp_path=config['tempPath'])
 			
 		# For each table in datasets config
