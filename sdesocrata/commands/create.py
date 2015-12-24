@@ -19,7 +19,7 @@ class Create(Base):
 	def map_field_type(self, field_type, shape_type):
 		return {
 			'Blob': 'text',
-			'Date': 'text',
+			'Date': 'date',
 			'Double': 'number',
 			'Geometry': shape_type,
 			'Guid': 'text',

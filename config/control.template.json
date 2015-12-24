@@ -6,6 +6,9 @@
     "quote": "\"",
     "separator": ",",
     "trimWhitespace": true,
-    "skip": 1
+    "skip": 1,
+    "fixedTimestampFormat": ["ISO8601", "yyyy-MM-dd", "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm:ss.SSSSSS"],
+    "floatingTimestampFormat": ["ISO8601", "yyyy-MM-dd", "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm:ss.SSSSSS"],
+    "timezone": "America/New_York"
   }
 }
