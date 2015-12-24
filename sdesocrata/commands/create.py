@@ -10,7 +10,7 @@ class Create(Base):
 	def map_shape_type(self, shape_type):
 		return {
 			'Polygon': 'multipolygon',
-			'Polyline': 'polyline',
+			'Polyline': 'multiline',
 			'Point': 'point',
 			'MultiPoint': 'multipoint',
 			'MultiPatch': 'multipatch',
@@ -19,7 +19,7 @@ class Create(Base):
 	def map_field_type(self, field_type, shape_type):
 		return {
 			'Blob': 'text',
-			'Date': 'date',
+			'Date': 'text',
 			'Double': 'number',
 			'Geometry': shape_type,
 			'Guid': 'text',
