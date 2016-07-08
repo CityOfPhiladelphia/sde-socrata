@@ -2,7 +2,7 @@
 sdesocrata
 
 Usage:
-  sdesocrata create <table> [--public] [--config=<config_path>]
+  sdesocrata create <table> [--key=objectid] [--public] [--config=<config_path>]
   sdesocrata push <table> <id>
   sdesocrata push --list=<list_path>
   sdesocrata -h | --help

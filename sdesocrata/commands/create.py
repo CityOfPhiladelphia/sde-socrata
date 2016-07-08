@@ -19,7 +19,7 @@ class Create(Base):
 	def map_field_type(self, field_type, shape_type):
 		return {
 			'Blob': 'text',
-			'Date': 'date',
+			'Date': 'calendar_date',
 			'Double': 'number',
 			'Geometry': shape_type,
 			'Guid': 'text',
@@ -40,14 +40,11 @@ class Create(Base):
 		
 		# Get fields
 		desc = arcpy.Describe(self.options['<table>'])
-		shape_type = self.map_shape_type(desc.shapeType)
+		shape_type = self.map_shape_type(desc.shapeType) if hasattr(desc, 'shapeType') else ''
 		columns = []
-		row_identifier = ''
+		row_identifier = self.options['--key']
 		for field in desc.fields:
 			field_name = slugify(field.name, separator='_')
-			
-			if(field.type == 'OID'):
-				row_identifier = field_name
 				
 			columns.append({
 				'fieldName': field_name,
